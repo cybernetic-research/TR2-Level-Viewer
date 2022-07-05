@@ -66,6 +66,16 @@ public class ThirdPersonCam : MonoBehaviour {
 			
 			player = target.GetComponent<Player>();
 			binit = true;
+			if (Settings.bUseFirstPersonCamera)
+			{
+				MeshRenderer[] renderers = target.GetComponentsInChildren<MeshRenderer>();
+				foreach (MeshRenderer renderer in renderers)
+				{
+					renderer.enabled = false;
+
+				}
+			}
+
 		}
 	
 	
@@ -96,18 +106,18 @@ public class ThirdPersonCam : MonoBehaviour {
 		{
 			distance = 1500 * Settings.SceneScaling;
 		}
-		
-		
-		if(anim!=null && anim.OnAir)
+
+
+		if (anim != null && anim.OnAir)
 		{
-            /*transform.position = position - forward * distance;
+			/*transform.position = position - forward * distance;
 			forward = (target.position - transform.position).normalized;
 			transform.forward = Vector3.Lerp(transform.forward ,forward,Time.deltaTime * 0.5f);*/
-
-            m_Transform.forward = Vector3.Lerp(m_Transform.forward , target.forward,Time.deltaTime * 5.0f);
-			Vector3 pos = target.position - forward * distance;
-            m_Transform.position = Vector3.Lerp(m_Transform.position,new Vector3(pos.x,pos.y + 700 *Settings.SceneScaling, pos.z),Time.deltaTime * 2.0f);
-
+			if (!Settings.bUseFirstPersonCamera) {
+				m_Transform.forward = Vector3.Lerp(m_Transform.forward, target.forward, Time.deltaTime * 5.0f);
+				Vector3 pos = target.position - forward * distance;
+				m_Transform.position = Vector3.Lerp(m_Transform.position, new Vector3(pos.x, pos.y + 700 * Settings.SceneScaling, pos.z), Time.deltaTime * 2.0f);
+			} else { Vector3 pos = target.position - forward * distance; m_Transform.forward = target.forward; m_Transform.position = new Vector3(pos.x, pos.y + 700 * Settings.SceneScaling, pos.z); };
 		
 			//Debug.Log(camrot);
 		}
@@ -117,17 +127,21 @@ public class ThirdPersonCam : MonoBehaviour {
 			{
 				lookup = 0f;
 				mouse_dy = 0;
-                m_Transform.forward = Vector3.Lerp(m_Transform.forward , target.forward + Vector3.up * lookup,Time.deltaTime * 5.0f) ;
-				Vector3 pos = target_hip.position - forward * distance;
-                m_Transform.position = Vector3.Lerp(m_Transform.position,new Vector3(pos.x,pos.y + 128 * Settings.SceneScaling, pos.z),Time.deltaTime * 2.0f);
+				if (!Settings.bUseFirstPersonCamera){
+					m_Transform.forward = Vector3.Lerp(m_Transform.forward, target.forward + Vector3.up * lookup, Time.deltaTime * 5.0f);
+					Vector3 pos = target_hip.position - forward * distance;
+					m_Transform.position = Vector3.Lerp(m_Transform.position, new Vector3(pos.x, pos.y + 128 * Settings.SceneScaling, pos.z), Time.deltaTime * 2.0f);
+				} else { Vector3 pos = target_hip.position - forward * distance; m_Transform.forward = target.forward + Vector3.up * lookup; m_Transform.position = new Vector3(pos.x, pos.y + 128 * Settings.SceneScaling, pos.z); }
 			}
 			else
 			{
 				lookup += mouse_dy * 0.01f;
 				mouse_dy = 0;
-                m_Transform.forward = Vector3.Lerp(m_Transform.forward , target.forward + Vector3.up * lookup,Time.deltaTime * 5.0f) ;
-				Vector3 pos = target_hip.position - forward * distance;
-                m_Transform.position = Vector3.Lerp(m_Transform.position,new Vector3(pos.x,pos.y + 400 * Settings.SceneScaling, pos.z),Time.deltaTime * 2.0f);
+				if (!Settings.bUseFirstPersonCamera){
+					m_Transform.forward = Vector3.Lerp(m_Transform.forward, target.forward + Vector3.up * lookup, Time.deltaTime * 5.0f);
+					Vector3 pos = target_hip.position - forward * distance;
+					m_Transform.position = Vector3.Lerp(m_Transform.position, new Vector3(pos.x, pos.y + 128 * Settings.SceneScaling, pos.z), Time.deltaTime * 2.0f);
+				} else { Vector3 pos = target_hip.position - forward * distance; m_Transform.forward = target.forward + Vector3.up * lookup; m_Transform.position = new Vector3(pos.x, pos.y + 400 * Settings.SceneScaling, pos.z); }
 			}
 			
 		}

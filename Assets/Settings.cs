@@ -25,7 +25,7 @@ public class Settings  {
 													 //file: url or http:
 													 //otherwise system will load level from
 													 //LevelFileLocalPath
-	public static string LevelFileUrl = "http://tickleheadstudios.com/demo/unity/tr2webgl/assault.tr2"; 
+	public static string LevelFileUrl = "https://raw.githubusercontent.com/andrewsyc/Tomb-Raider-1-2-3-4-5-Map-viewer-and-levels/master/Tomb-Raider-2/10-The-Deck.TR2"; 
 	public static string LevelFileLocalPath = "Custom Demo Files/HILTOP.TR2";  
 													//LevelFileLocalPath is default file path 
 													//that system tries lo load if
@@ -35,4 +35,7 @@ public class Settings  {
 													//that file browser will look up.
 	public static bool LoadDemoLevel = false;
     public static float SceneScaling = 0.0009765625f; //Scaling support for GI and Physics in Unity 5 and higher
+
+
+	public static bool bUseFirstPersonCamera = true; // Set it true for first person VR view, otherwise set it false for third person view.
 }

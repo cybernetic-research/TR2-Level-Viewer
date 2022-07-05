@@ -559,7 +559,7 @@ public class Player : ObjectExt
         MeshRenderer[] mrs = GetComponentsInChildren<MeshRenderer>();
         foreach (MeshRenderer mr in mrs)
         {
-            mr.enabled = true;
+            if (!Settings.bUseFirstPersonCamera) { mr.enabled = true; }
         }
 
         m_Transform.position = FlickerPos;
