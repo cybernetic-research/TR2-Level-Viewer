@@ -119,6 +119,7 @@
     <Compile Include="Assets\scripts\Environment\DayNightSystem.cs" />
     <Compile Include="Assets\scripts\Geometry Helper\SurfaceAnalyzer.cs" />
     <Compile Include="Assets\scripts\Physics\PlayerCollisionHandler.cs" />
+    <Compile Include="Assets\ButtomWebScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
