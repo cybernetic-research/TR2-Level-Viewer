@@ -8,6 +8,8 @@ using System.IO;
 
 public class ButtomWebScript : MonoBehaviour
 {
+    static bool LoadDemoLevel = false;
+
     static TextAsset m_DemoData;
     //public ThirdPersonCam m_Camera = null;
     //public TextMesh m_Text3D = null;
@@ -116,9 +118,11 @@ public class ButtomWebScript : MonoBehaviour
 
     void Start()
     {
-        /*
-        Settings.LoadLevelFileFromUrl = true;
-        if (!Settings.LoadLevelFileFromUrl) //Load level from local data file
+    }
+
+    void MainMenuControls(bool LoadLevelFileFromUrl)
+    { 
+        if (!LoadLevelFileFromUrl) //Load level from local data file
         {
             LoadLevel();
         }
@@ -135,7 +139,6 @@ public class ButtomWebScript : MonoBehaviour
                 m_www = new WWW(Settings.LevelFileUrl);
             }
         }
-        */
     }
 
     void LoadLevel()
@@ -181,7 +184,7 @@ public class ButtomWebScript : MonoBehaviour
 					Level.m_LevelName = Path.GetFileNameWithoutExtension(path);
 				}
 #else
-            if (Settings.LoadDemoLevel)
+            if (LoadDemoLevel)
             {
                 m_DemoData = (TextAsset)Resources.Load("Demo Level", typeof(TextAsset));
                 m_RawFileData = m_DemoData.bytes;
@@ -281,14 +284,25 @@ public class ButtomWebScript : MonoBehaviour
 
         return level;
     }
-   
 
-    public void DoClick()
+  
+
+    public void DoClickDemo() 
     {
-        Debug.Log("Web buttoin clicked");
-        Debug.Log("Init load level from url: " + Settings.LevelFileUrl);
-        m_LevelName = Path.GetFileNameWithoutExtension(Settings.LevelFileUrl);
-        m_www = new WWW(Settings.LevelFileUrl);
+        LoadDemoLevel = true;
+        Debug.Log("DoClickDemo");
+        MainMenuControls(false);
+    }
+    public void DoClickFile() 
+    {
+        LoadDemoLevel = false;
+        Debug.Log("DoClickFile");
+        MainMenuControls(false);
+    }
+    public void DoClickWeb()
+    {
+        Debug.Log("DoClickWeb");
+        MainMenuControls(true);
     }
 }
 
