@@ -8,6 +8,7 @@ using System.IO;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class ButtomWebScript : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class ButtomWebScript : MonoBehaviour
     {
      DbgText = FindObjectOfType<Text>();
         DbgText.text = "Debug Info";
+        //Create();
     }
 
 #if UNITY_EDITOR
@@ -248,6 +250,13 @@ public class ButtomWebScript : MonoBehaviour
         {
             //leveldata.Camera = m_Camera;
             //leveldata.Text3DPrefav = m_Text3D;
+
+
+
+            //load shared material
+            m_SharedMaterial = (Material)AssetDatabase.LoadAssetAtPath("Assets" + m_SharedMaterialPath, typeof(Material));
+
+
             if (m_SharedMaterial != null)
             {
                 info = "Building Level data...";
@@ -255,6 +264,8 @@ public class ButtomWebScript : MonoBehaviour
 
                 m_SharedMaterial.mainTexture = TextureUV.GenerateTextureTile(leveldata);
                 m_Level = BuildLevel(leveldata, m_SharedMaterial, m_LevelName);
+
+                SceneManager.LoadScene("level");
             }
             else
             {
@@ -286,8 +297,13 @@ public class ButtomWebScript : MonoBehaviour
         {
             info = "downloading data from web";
             DbgText.text = info;
+           
             if (m_www.isDone && m_www.error == null)
             {
+                PlayerPrefs.SetString("LevelFileUrl", Settings.LevelFileUrl);
+                Loader.m_RawFileData = m_www.bytes;
+                m_RawFileData = Loader.m_RawFileData;
+                m_www = null;
                 info = "about to load downloaded data from web";
                 DbgText.text = info;
                 LoadLevelFromUrl(m_RawFileData);
