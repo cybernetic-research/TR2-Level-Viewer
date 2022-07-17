@@ -9,12 +9,15 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Unity.XR;
+using Unity.XR.CoreUtils;
 
 public class ButtomWebScript : MonoBehaviour
-{
+{   bool updateCamera = false;
+    [SerializeField]
+    public XROrigin MainCamera;
     public static Text DbgText;
     static bool LoadDemoLevel = false;
-
     static TextAsset m_DemoData;
     //public ThirdPersonCam m_Camera = null;
     //public TextMesh m_Text3D = null;
@@ -265,7 +268,8 @@ public class ButtomWebScript : MonoBehaviour
                 m_SharedMaterial.mainTexture = TextureUV.GenerateTextureTile(leveldata);
                 m_Level = BuildLevel(leveldata, m_SharedMaterial, m_LevelName);
 
-                SceneManager.LoadScene("level");
+                //      SceneManager.LoadScene("level");  //kind of a botch
+                updateCamera = true;
             }
             else
             {
@@ -310,6 +314,14 @@ public class ButtomWebScript : MonoBehaviour
                 m_www = null;
             }
         }
+
+        if (updateCamera==true)
+        {
+            //Transform t = 
+            MainCamera.transform.position = new Vector3(100, 10, 10); ;
+            updateCamera = false;
+        }
+       
     }
 
     public static Level BuildLevel(Parser.Tr2Level leveldata, Material sharedmaterial, string levelname)
